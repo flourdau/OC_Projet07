@@ -1,0 +1,11 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "cours backend OC",
+  "main": "server.js",
+  "author": "flourdau",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

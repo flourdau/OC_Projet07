@@ -1,8 +1,12 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "cours backend OC",
+  "description": "OC_Projet07: Développez le back-end d'un site de notation de livres",
   "main": "server.js",
   "author": "flourdau",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.3.0"
+  }
 }

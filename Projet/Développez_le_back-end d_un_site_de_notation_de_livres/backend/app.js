@@ -2,24 +2,22 @@ const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
 require('dotenv').config();
-
 const app = express()
 
-const stuffRoutes = require('./routes/stuff')
-const userRoutes = require('./routes/user')
 
-        mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_CLUSTER}.mongodb.net/?retryWrites=true&w=majority`,
-        // 'mongodb+srv://machine:yEC!e*vkaUrcU4s@cluster0.fuehqgz.mongodb.net/?retryWrites=true&w=majority',
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        }
-    )
+// Mongo Connection
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_CLUSTER}.mongodb.net/?retryWrites=true&w=majority`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true})
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'))
 
+
+// Add body request
 app.use(express.json())
 
+
+// CORS Configuration
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization')
@@ -27,8 +25,11 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use('/api/stuff', stuffRoutes)
+
+// Add routes
+const bookRoutes = require('./routes/book')
+const userRoutes = require('./routes/user')
+app.use('/api/books', bookRoutes)
 app.use('/api/auth', userRoutes)
-app.use('/images', express.static(path.join(__dirname, 'images')))
 
 module.exports = app

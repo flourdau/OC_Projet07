@@ -1,10 +1,14 @@
-const multer = require('multer')
+const multer = require("multer");
+
+// const app = express();
+// const storage = multer.memoryStorage();
 
 // MIME TYPE Dictionary accepted
 const MIME_TYPES = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpg',
-    'image/png': 'png'
+    'image/png': 'png',
+    'image/webp' : 'webp'
 }
 
 // Save & Rename image in ./images
@@ -13,6 +17,6 @@ const storage = multer.diskStorage({
     filename: (req, file, callback) => {
         const name = file.originalname.split(' ').join('_')
         const extension = MIME_TYPES[file.mimetype]
-        callback(null, name + Date.now() + '.' + extension)}})
+        callback(null, name.split('.')[0] + Date.now() + '.' + extension)}})
 
 module.exports = multer({storage: storage}).single('image')

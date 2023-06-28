@@ -1,6 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const fs = require('fs');
 const path = require('path')
+
 require('dotenv').config();
 const app = express()
 
@@ -26,10 +28,16 @@ app.use((req, res, next) => {
 })
 
 
-// Add routes
+// Check if images is created else create
+// fs.access(path.join(__dirname, 'images'), (error) => { if (error) { fs.mkdirSync(path.join(__dirname, 'images')) } })
+
+// Add dynamic routes
 const bookRoutes = require('./routes/book')
 const userRoutes = require('./routes/user')
 app.use('/api/books', bookRoutes)
 app.use('/api/auth', userRoutes)
+
+// Add static routes
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app

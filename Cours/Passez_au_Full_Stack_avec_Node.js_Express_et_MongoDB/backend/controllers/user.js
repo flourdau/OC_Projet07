@@ -17,11 +17,14 @@ exports.signup = (req, res, next) => {
   };
 
 exports.login = (req, res, next) => {
+    console.log('TEST2', req.body.email)
     User.findOne({ email: req.body.email })
         .then(user => {
+    console.log(user)
             if (!user) {
                 return res.status(401).json({ message: 'Paire login/mot de passe incorrecte'});
             }
+            console.log(req.body.password, user.password)
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if (!valid) {
@@ -32,11 +35,15 @@ exports.login = (req, res, next) => {
                         token: jwt.sign(
                             { userId: user._id },
                             'RANDOM_TOKEN_SECRET',
-                            { expireIn: '24h' }
+                            { expiresIn: '24h' }
                         )
                     });
                 })
-                .catch(error => res.status(500).json({ error }));
+                .catch((error) => {
+                    console.log(error);
+                    res.status(500).json({ error })
+                })
+                // .catch(error => res.status(500).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
 }

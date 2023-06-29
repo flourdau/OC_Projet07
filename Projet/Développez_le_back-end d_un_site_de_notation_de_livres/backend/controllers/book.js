@@ -26,7 +26,7 @@ exports.createBook = (req, res, next) => {
 
     // & save in database
     book.save()
-        .then(() => res.status(201).json({ message: 'Objet enregistré !' }))
+        .then(() => res.status(201).json({ message: 'Object saving !' }))
         .catch((error) => res.status(400).json({ error }))}
 
 
@@ -61,7 +61,7 @@ exports.modifyBook = (req, res, next) => {
             if (book.userId != req.auth.userId) { res.status(400).json({ message : 'Not authorized'}) }
             else {
                 Book.updateOne({ _id: req.params.id}, { ...bookObject, _id: req.params.id })
-                    .then(() => res.status(200).json({ message : 'Objet update!' }))
+                    .then(() => res.status(200).json({ message : 'Object update!' }))
                     .catch(error => res.status(401).json({ error }))
             }
         })
@@ -76,6 +76,60 @@ exports.deleteBook = (req, res, next) => {
                 const filename = book.imageUrl.split('/images/')[1]
                 fs.unlink(`images/${filename}`, () => {
                     Book.deleteOne({_id: req.params.id})
-                        .then(() => { res.status(200).json({message: 'Objet supprimé !'})})
+                        .then(() => { res.status(200).json({message: 'Object deleted !'})})
                         .catch(error => res.status(401).json({ error }))})}})
         .catch( error => { res.status(500).json({ error }) })}
+
+
+// Function for calculating average book ratings
+function newAverageRating(newArrayRating) {
+    // Total of rating
+    const newTotal = newArrayRating.reduce((total, note) => total + note.grade, 0)
+    // Average of array
+    const average = newTotal / newArrayRating.length
+    // Return float with 2 number after comma
+    return parseFloat(average.toFixed(2))
+}
+
+// Add or update rating book
+exports.rateBook = (req, res, next) => {
+    const user = req.body.userId;
+
+    if (user !== req.auth.userId) {
+        res.status(401).json({ message: 'Not authorized' })
+    }
+    else {
+        // Search a book with ID
+        Book.findOne({ _id: req.params.id })
+            .then(book => {
+                // Check if not a book is already rated
+                if (book.ratings.find(rating => rating.userId === user)) {
+                    res.status(401).json({ message: 'Livre déjà noté' })
+                }
+                else {
+                    // Else created a new rating
+                    const newRating = {
+                        userId: user,
+                        grade: req.body.rating,
+                        _id: req.body._id
+                    }
+
+                    // Add new rating in average array
+                    const newArrayRating = [
+                        ...book.ratings,
+                        newRating
+                    ]
+                    
+                    // Calculation of the new average
+                    const updateAverageRating = newAverageRating(newArrayRating);
+
+                    Book.findOneAndUpdate(
+                        // Select all documents in the book collection where user is not equal to 20:
+                        { _id: req.params.id, 'ratings.userId': { $ne: user } },
+                        // $Push add a value in array 
+                        { $push: { ratings: newRating }, averageRating: updateAverageRating },
+                        // Creating a new document if not exist
+                        { new: true })
+                        .then(updatedBook => res.status(201).json(updatedBook))
+                        .catch(error => res.status(401).json({ error }))}})
+            .catch(error => res.status(401).json({ error }))}}

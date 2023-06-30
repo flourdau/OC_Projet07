@@ -1,7 +1,4 @@
-const multer = require("multer");
-
-// const app = express();
-// const storage = multer.memoryStorage();
+const multer = require("multer")
 
 // MIME TYPE Dictionary accepted
 const MIME_TYPES = {

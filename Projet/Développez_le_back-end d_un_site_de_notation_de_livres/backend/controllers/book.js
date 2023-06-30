@@ -91,13 +91,13 @@ function newAverageRating(newArrayRating) {
     return parseFloat(average.toFixed(2))
 }
 
+
 // Add or update rating book
 exports.rateBook = (req, res, next) => {
     const user = req.body.userId;
 
-    if (user !== req.auth.userId) {
-        res.status(401).json({ message: 'Not authorized' })
-    }
+    if (user != req.auth.userId) { res.status(401).json({message: 'Not authorized'}) } 
+
     else {
         // Search a book with ID
         Book.findOne({ _id: req.params.id })
@@ -133,3 +133,12 @@ exports.rateBook = (req, res, next) => {
                         .then(updatedBook => res.status(201).json(updatedBook))
                         .catch(error => res.status(401).json({ error }))}})
             .catch(error => res.status(401).json({ error }))}}
+
+
+// Sort book by best rating
+exports.getBestBook = (req, res, next) => {
+    Book.find()
+        .sort({ averageRating: -1 }) // -1 for sort by ascending 
+        .limit(3)
+    .then(books => res.status(200).json(books))
+    .catch(error => res.status(401).json({ error }))}

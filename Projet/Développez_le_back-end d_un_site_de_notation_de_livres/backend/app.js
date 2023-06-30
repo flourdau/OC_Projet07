@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 
 
 // Check if images is created else create
-// fs.access(path.join(__dirname, 'images'), (error) => { if (error) { fs.mkdirSync(path.join(__dirname, 'images')) } })
+fs.access(path.join(__dirname, 'images'), (error) => { if (error) { fs.mkdirSync(path.join(__dirname, 'images')) } })
 
 // Add dynamic routes
 const bookRoutes = require('./routes/book')

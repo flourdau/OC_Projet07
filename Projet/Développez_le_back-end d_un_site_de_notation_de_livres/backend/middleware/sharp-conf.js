@@ -1,13 +1,13 @@
-// const express = require("express");
-const fs = require("fs");
+// const express = require("express")
+const fs = require("fs")
 
 // const multer = require("multer");
-// const sharp = require("sharp");
+const sharp = require("sharp")
 // const sharp = require('sharp-multer')
 
-// const app = express();
-// const storage = multer.memoryStorage();
-// const upload = multer({ storage });
+// const app = express()
+// const storage = multer.memoryStorage()
+// const upload = multer({ storage })
 
 module.exports = async (req, res, next) => {
     // if (!req.file) { 

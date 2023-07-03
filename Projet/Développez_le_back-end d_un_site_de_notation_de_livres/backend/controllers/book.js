@@ -19,8 +19,7 @@ exports.createBook = (req, res, next) => {
     const book = new Book({
         ...bookObject,
         userId: req.auth.userId,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-        // imageUrl: `${req.protocol}://${req.get("host")}/images/${ req.file.filename.split('.')[0] }transformed.webp`,
+        imageUrl: `${req.protocol}://${req.get("host")}/images/${ req.file.filename.split('.')[0] }transformed.webp`,
         averageRating: bookObject.ratings[0].grade
     })
 
@@ -49,7 +48,7 @@ exports.modifyBook = (req, res, next) => {
     // Check if the image exists
     const bookObject = req.file ? {
         ...JSON.parse(req.body.book),
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        imageUrl: `${req.protocol}://${req.get("host")}/images/${ req.file.filename.split('.')[0] }transformed.webp`,
     } : { ...req.body.book }
 
     // deletion of the _userId field sent by the client (no customer confidence)
@@ -60,9 +59,12 @@ exports.modifyBook = (req, res, next) => {
         .then((book) => {
             if (book.userId != req.auth.userId) { res.status(400).json({ message : 'Not authorized'}) }
             else {
-                Book.updateOne({ _id: req.params.id}, { ...bookObject, _id: req.params.id })
-                    .then(() => res.status(200).json({ message : 'Object update!' }))
-                    .catch(error => res.status(401).json({ error }))
+                // Delete old images & update
+                const filename = book.imageUrl.split('/images/')[1]
+                fs.unlink(`images/${filename}`, () => {
+                    Book.updateOne({_id: req.params.id }, { ...bookObject, _id: req.params.id })
+                        .then(() => res.status(200).json({ message : 'Object update!' }))
+                        .catch(error => res.status(401).json({ error }))})
             }
         })
         .catch((error) => res.status(400).json({ error }))}

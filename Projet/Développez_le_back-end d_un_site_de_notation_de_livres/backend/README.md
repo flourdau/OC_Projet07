@@ -24,13 +24,13 @@
     cp .env.dist .env 
 ***Complet .env with your database informations***
 
-    yarn install`
-    yarn start`
+    yarn install
+    yarn start
 
 ###     Dump/Restor MongoDB & Images Tests:
-    `mongodump --uri mongodb+srv://<DB_USER>:<DB_PASS>@cluster0.<DB_CLUSTER>.mongodb.net/`
-    `mongorestore --uri mongodb+srv://<DB_USER>:<DB_PASS>@cluster0.<DB_CLUSTER>.mongodb.net /dumpDB`
-    `cp -Rpv ./dumpDB/images/ ./images/`
+    mongodump --uri mongodb+srv://<DB_USER>:<DB_PASS>@cluster0.<DB_CLUSTER>.mongodb.net/
+    mongorestore --uri mongodb+srv://<DB_USER>:<DB_PASS>@cluster0.<DB_CLUSTER>.mongodb.net /dumpDB
+    cp -Rpv ./dumpDB/images/ ./images/
 
 ##      Dependencies:
 - express:***Fast, minimalist web framework for Node.js.***

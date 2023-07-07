@@ -27,9 +27,10 @@
     yarn install`
     yarn start`
 
-###     Dump/Restor Mongo DB:
+###     Dump/Restor MongoDB & Images Tests:
     `mongodump --uri mongodb+srv://<DB_USER>:<DB_PASS>@cluster0.<DB_CLUSTER>.mongodb.net/`
     `mongorestore --uri mongodb+srv://<DB_USER>:<DB_PASS>@cluster0.<DB_CLUSTER>.mongodb.net /dumpDB`
+    `cp -Rpv ./dumpDB/images/ ./images/`
 
 ##      Dependencies:
 - express:***Fast, minimalist web framework for Node.js.***

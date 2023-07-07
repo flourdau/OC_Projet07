@@ -1,4 +1,8 @@
 #       OC_Projet07
+![image](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+![image](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![image](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![image](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
 ####    *Projet 07 de la Formation Développeur Web d'Openclassrooms.*
 ##      Développez le back-end d'un site de notation de livres.
 ####    *Créez le back-end d’un site de notation de livres pour qu’il s’intègre correctement avec le front-end. Vous utilisez Node.js, Express et MongoDB.*
@@ -8,10 +12,6 @@
 -   ### [FrontEnd Repositories GitHub](https://github.com/OpenClassrooms-Student-Center/P7-Dev-Web-livres)
 -   ### [Figma mockup](https://www.figma.com/file/Snidyc45xi6qchoOPabMA9/Maquette-Mon-Vieux-Grimoir?node-id=0%3A1)
 
-![image](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
-![image](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![image](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
-![image](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
 
 ##      Installation:
 ###     Front-End:
@@ -26,6 +26,10 @@
 
     yarn install`
     yarn start`
+
+###     Dump/Restor Mongo DB:
+    `mongodump --uri mongodb+srv://<DB_USER>:<DB_PASS>@cluster0.<DB_CLUSTER>.mongodb.net/`
+    `mongorestore --uri mongodb+srv://<DB_USER>:<DB_PASS>@cluster0.<DB_CLUSTER>.mongodb.net /dumpDB`
 
 ##      Dependencies:
 - express:***Fast, minimalist web framework for Node.js.***

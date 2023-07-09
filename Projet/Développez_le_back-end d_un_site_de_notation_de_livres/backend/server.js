@@ -13,7 +13,7 @@ const normalizePort = (val) => {
 }
 
 // Mongo Connection
-mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_CLUSTER}.mongodb.net/?retryWrites=true&w=majority`, {
+mongoose.connect(process.env.DB_LINK, {
     useNewUrlParser: true,
     useUnifiedTopology: true})
     .then(() => console.log('Connexion à MongoDB réussie !'))

@@ -34,14 +34,14 @@ exports.createBook = (req, res, next) => {
     // & save in database
     book.save()
         .then(() => res.status(201).json({ message: 'Object saving !' }))
-        .catch((error) => res.status(400).json({ error }))}
+        .catch((error) => res.status(500).json({ error }))}
 
 
 // Get All books
 exports.getAllBook = (req, res, next) => {
     Book.find()
         .then((books) => res.status(200).json(books))
-        .catch((error) => res.status(400).json({ error }))}
+        .catch((error) => res.status(500).json({ error }))}
 
 
 // Get one book with id
@@ -72,10 +72,10 @@ exports.modifyBook = (req, res, next) => {
                 fs.unlink(`images/${filename}`, () => {
                     Book.updateOne({_id: req.params.id }, { ...bookObject, _id: req.params.id })
                         .then(() => res.status(200).json({ message : 'Object update!' }))
-                        .catch(error => res.status(401).json({ error }))})
+                        .catch(error => res.status(500).json({ error }))})
             }
         })
-        .catch((error) => res.status(400).json({ error }))}
+        .catch((error) => res.status(404).json({ error }))}
 
 
 exports.deleteBook = (req, res, next) => {
@@ -87,7 +87,7 @@ exports.deleteBook = (req, res, next) => {
                 fs.unlink(`images/${filename}`, () => {
                     Book.deleteOne({_id: req.params.id})
                         .then(() => { res.status(200).json({message: 'Object deleted !'})})
-                        .catch(error => res.status(401).json({ error }))})}})
+                        .catch(error => res.status(500).json({ error }))})}})
         .catch( error => { res.status(500).json({ error }) })}
 
 
@@ -114,7 +114,7 @@ exports.rateBook = (req, res, next) => {
         .then(book => {
             // Check if not a book is already rated
             if (book.ratings.find(rating => rating.userId === user)) {
-                res.status(401).json({ message: 'Livre déjà noté' })
+                res.status(500).json({ message: 'Livre déjà noté' })
             }
             else {
                     // Else created a new rating
@@ -141,8 +141,8 @@ exports.rateBook = (req, res, next) => {
                         // Creating a new document if not exist
                         { new: true })
                         .then(updatedBook => res.status(201).json(updatedBook))
-                        .catch(error => res.status(401).json({ error }))}})
-            .catch(error => res.status(401).json({ error }))}}
+                        .catch(error => res.status(500).json({ error }))}})
+            .catch(error => res.status(500).json({ error }))}}
 
 
 // Sort book by best rating
@@ -151,4 +151,4 @@ exports.getBestBook = (req, res, next) => {
         .sort({ averageRating: -1 }) // -1 for sort by ascending 
         .limit(3)
     .then(books => res.status(200).json(books))
-    .catch(error => res.status(401).json({ error }))}
+    .catch(error => res.status(500).json({ error }))}

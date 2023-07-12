@@ -11,9 +11,17 @@ exports.createBook = (req, res, next) => {
     // Delete params for use database params
     delete req.body._id
     delete req.body._userId
-
+    
     // Get body request
-    const bookObject =  JSON.parse(req.body.book);
+    const bookObject =  JSON.parse(req.body.book)
+
+    // Check if picture
+    if (!req.file) {
+        console.log('No Picture')
+        return res
+            .status(500)
+            .json({ message: 'No Picture' })
+    }
 
     // Creation Object
     const book = new Book({
@@ -103,12 +111,12 @@ exports.rateBook = (req, res, next) => {
     else {
         // Search a book with ID
         Book.findOne({ _id: req.params.id })
-            .then(book => {
-                // Check if not a book is already rated
-                if (book.ratings.find(rating => rating.userId === user)) {
-                    res.status(401).json({ message: 'Livre déjà noté' })
-                }
-                else {
+        .then(book => {
+            // Check if not a book is already rated
+            if (book.ratings.find(rating => rating.userId === user)) {
+                res.status(401).json({ message: 'Livre déjà noté' })
+            }
+            else {
                     // Else created a new rating
                     const newRating = {
                         userId: user,
